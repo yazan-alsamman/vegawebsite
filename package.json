@@ -9,6 +9,8 @@
     "dev:server": "tsx watch server/index.ts",
     "server": "tsx server/index.ts",
     "build": "tsc -b && vite build",
+    "build:prod": "tsc -b && vite build",
+    "start:api": "tsx server/index.ts",
     "lint": "eslint .",
     "preview": "vite preview",
     "instagram:slide1": "node scripts/generate-instagram-slide-01.mjs"

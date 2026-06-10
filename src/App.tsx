@@ -32,6 +32,21 @@ export default function App() {
             <Route path="projects/:id/edit" element={<AdminProjectForm />} />
           </Route>
         </Route>
+
+        <Route
+          path="*"
+          element={
+            <div className="min-h-screen bg-navy-950 flex items-center justify-center px-4 text-center">
+              <div>
+                <h1 className="font-display text-3xl font-bold text-white mb-3">Page not found</h1>
+                <p className="text-slate-400 mb-6">The page you requested does not exist.</p>
+                <a href="/" className="text-blue-400 hover:text-blue-300">
+                  Back to home
+                </a>
+              </div>
+            </div>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
