@@ -3,7 +3,7 @@ module.exports = {
     {
       name: "vegacore",
       script: "tsx",
-      args: "server/index.ts",
+      args: "backend/index.ts",
       cwd: __dirname,
       env: {
         NODE_ENV: "production",
