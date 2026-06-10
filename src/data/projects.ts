@@ -1,33 +1,19 @@
-export type ProjectCategory =
-  | "e-commerce"
-  | "systems"
-  | "ai-solutions"
-  | "mobile-apps"
-  | "cloud-solutions";
+export type {
+  Project,
+  ProjectCategory,
+  ProjectRecord,
+} from "../types/project";
 
-export interface Project {
-  id: string;
-  name: string;
-  description: string;
-  category: ProjectCategory;
-  url?: string;
-  featured?: boolean;
-  image: string;
-  logo?: string;
-  logoFit?: "cover" | "contain";
-  tags: string[];
-}
+export {
+  categoryLabels,
+  categories,
+  toProject,
+} from "../types/project";
+
+import type { Project, ProjectCategory } from "../types/project";
 
 const img = (seed: string) =>
   `https://images.unsplash.com/photo-${seed}?w=800&h=500&fit=crop&auto=format`;
-
-export const categoryLabels: Record<ProjectCategory, string> = {
-  "e-commerce": "E-Commerce",
-  systems: "Systems & Platforms",
-  "ai-solutions": "AI Solutions",
-  "mobile-apps": "Mobile Apps",
-  "cloud-solutions": "Cloud Solutions",
-};
 
 export const projects: Project[] = [
   // Featured E-Commerce
@@ -555,11 +541,3 @@ export const featuredProjects = projects.filter((p) => p.featured);
 
 export const projectsByCategory = (category: ProjectCategory) =>
   projects.filter((p) => p.category === category);
-
-export const categories: ProjectCategory[] = [
-  "e-commerce",
-  "systems",
-  "ai-solutions",
-  "mobile-apps",
-  "cloud-solutions",
-];

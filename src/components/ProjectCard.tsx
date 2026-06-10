@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ExternalLink, Star } from "lucide-react";
-import type { Project } from "../data/projects";
+import { assetUrl } from "../api/client";
+import type { Project } from "../types/project";
 
 interface ProjectCardProps {
   project: Project;
@@ -8,6 +9,9 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
+  const imageSrc = assetUrl(project.image);
+  const logoSrc = project.logo ? assetUrl(project.logo) : undefined;
+
   const content = (
     <motion.div
       initial={{ opacity: 0, y: 40, scale: 0.96 }}
@@ -20,7 +24,7 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
       <div className="relative h-52 overflow-hidden bg-navy-900">
         {project.logo ? (
           <motion.img
-            src={project.logo}
+            src={logoSrc}
             alt={`${project.name} logo`}
             className={`absolute inset-0 w-full h-full ${
               project.logoFit === "contain" ? "object-contain p-3" : "object-cover"
@@ -32,7 +36,7 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
         ) : (
           <>
             <motion.img
-              src={project.image}
+              src={imageSrc}
               alt={project.name}
               className="w-full h-full object-cover object-top"
               loading="lazy"

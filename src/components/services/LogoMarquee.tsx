@@ -1,12 +1,6 @@
-import { featuredProjects } from "../../data/projects";
+import { assetUrl } from "../../api/client";
+import { useProjects } from "../../hooks/useProjects";
 import logoWhite from "../../assets/logo-white-clear.png";
-
-const clientLogos = featuredProjects
-  .filter((p) => p.logo)
-  .map((p) => ({ src: p.logo!, name: p.name }));
-
-const row1 = [...clientLogos, { src: logoWhite, name: "VegaCore" }];
-const row2 = [...clientLogos].reverse();
 
 function MarqueeRow({
   items,
@@ -45,6 +39,14 @@ function MarqueeRow({
 }
 
 export default function LogoMarquee() {
+  const { featuredProjects } = useProjects();
+  const clientLogos = featuredProjects
+    .filter((p) => p.logo)
+    .map((p) => ({ src: assetUrl(p.logo!), name: p.name }));
+
+  const row1 = [...clientLogos, { src: logoWhite, name: "VegaCore" }];
+  const row2 = [...clientLogos].reverse();
+
   if (row1.length === 0) return null;
 
   return (

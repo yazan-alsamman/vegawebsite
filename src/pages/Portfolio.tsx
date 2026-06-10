@@ -5,19 +5,16 @@ import PageShell from "../components/PageShell";
 import AnimatedSection from "../components/AnimatedSection";
 import PageHero from "../components/PageHero";
 import ProjectCard from "../components/ProjectCard";
-import {
-  projects,
-  featuredProjects,
-  categories,
-  categoryLabels,
-  type ProjectCategory,
-} from "../data/projects";
+import { categories, categoryLabels } from "../data/projects";
 import { pageImages } from "../data/images";
+import { useProjects } from "../hooks/useProjects";
+import type { ProjectCategory } from "../types/project";
 
 export default function Portfolio() {
   const [activeCategory, setActiveCategory] = useState<ProjectCategory | "all" | "featured">(
     "featured"
   );
+  const { projects, featuredProjects, loading } = useProjects();
 
   const filtered =
     activeCategory === "all"
@@ -126,11 +123,15 @@ export default function Portfolio() {
                 </AnimatedSection>
               )}
 
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filtered.map((project, i) => (
-                  <ProjectCard key={project.id} project={project} index={i} />
-                ))}
-              </div>
+              {loading ? (
+                <p className="text-slate-400 text-center py-16">Loading projects...</p>
+              ) : (
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {filtered.map((project, i) => (
+                    <ProjectCard key={project.id} project={project} index={i} />
+                  ))}
+                </div>
+              )}
             </motion.div>
           </AnimatePresence>
         </div>

@@ -18,16 +18,18 @@ import GlowImage from "../components/GlowImage";
 import HandshakeVideo from "../components/HandshakeVideo";
 import SectionHeader from "../components/SectionHeader";
 import ProjectCard from "../components/ProjectCard";
-import { featuredProjects } from "../data/projects";
+import { assetUrl } from "../api/client";
+import { useProjects } from "../hooks/useProjects";
 import { stats, processSteps, coreCapabilities } from "../data/services";
 import { testimonials } from "../data/testimonials";
 import { pageImages } from "../data/images";
 
-const clientLogos = featuredProjects.filter((p) => p.logo).slice(0, 6);
-
 const heroEase = [0.22, 1, 0.36, 1] as const;
 
 export default function Home() {
+  const { featuredProjects } = useProjects();
+  const clientLogos = featuredProjects.filter((p) => p.logo).slice(0, 6);
+
   return (
     <PageShell>
       {/* Hero */}
@@ -166,7 +168,7 @@ export default function Home() {
                 <AnimatedSection key={client.id} delay={i * 0.05}>
                   <div className="h-10 sm:h-12 px-4 flex items-center justify-center opacity-60 hover:opacity-100 transition-opacity">
                     <img
-                      src={client.logo}
+                      src={assetUrl(client.logo!)}
                       alt={client.name}
                       className="max-h-full max-w-[120px] object-contain grayscale hover:grayscale-0 transition-all"
                     />

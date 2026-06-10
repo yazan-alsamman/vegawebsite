@@ -1,11 +1,7 @@
 import { motion } from "framer-motion";
-import { featuredProjects } from "../../data/projects";
+import { assetUrl } from "../../api/client";
+import { useProjects } from "../../hooks/useProjects";
 import logoWhite from "../../assets/logo-white-clear.png";
-
-const logos = [
-  ...featuredProjects.filter((p) => p.logo).map((p) => ({ src: p.logo!, name: p.name })),
-  { src: logoWhite, name: "VegaCore" },
-].slice(0, 6);
 
 const positions = [
   { top: "8%", left: "-6%", delay: 0 },
@@ -17,6 +13,14 @@ const positions = [
 ];
 
 export default function FloatingLogos() {
+  const { featuredProjects } = useProjects();
+  const logos = [
+    ...featuredProjects
+      .filter((p) => p.logo)
+      .map((p) => ({ src: assetUrl(p.logo!), name: p.name })),
+    { src: logoWhite, name: "VegaCore" },
+  ].slice(0, 6);
+
   return (
     <div className="absolute inset-0 pointer-events-none overflow-visible hidden lg:block">
       {logos.map((logo, i) => {
