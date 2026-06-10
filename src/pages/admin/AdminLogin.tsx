@@ -5,12 +5,20 @@ import { useAuth } from "../../context/AuthContext";
 import { ApiError } from "../../api/client";
 
 export default function AdminLogin() {
-  const { user, login } = useAuth();
+  const { user, loading, login } = useAuth();
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-navy-950 flex items-center justify-center text-slate-300">
+        Loading...
+      </div>
+    );
+  }
 
   if (user) {
     return <Navigate to="/admin/projects" replace />;

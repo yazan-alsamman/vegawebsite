@@ -49,7 +49,15 @@ const upload = multer({
 
 const router = Router();
 
-router.post("/", requireAuth, upload.single("file"), (req, res) => {
+router.post("/", requireAuth, (req, res, next) => {
+  upload.single("file")(req, res, (err) => {
+    if (err) {
+      res.status(400).json({ error: err.message || "Upload failed" });
+      return;
+    }
+    next();
+  });
+}, (req, res) => {
   if (!req.file) {
     res.status(400).json({ error: "No file uploaded" });
     return;

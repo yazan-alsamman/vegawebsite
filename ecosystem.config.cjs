@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: "vegacore-api",
+      name: "vegacore",
       script: "tsx",
       args: "server/index.ts",
       cwd: __dirname,
@@ -11,7 +11,8 @@ module.exports = {
       },
       instances: 1,
       autorestart: true,
-      max_memory_restart: "300M",
+      max_memory_restart: "400M",
+      watch: false,
     },
   ],
 };
