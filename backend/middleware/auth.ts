@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 const JWT_SECRET = process.env.JWT_SECRET || "vegacore-dev-secret-change-me";
 
 export interface AuthPayload {
-  userId: number;
+  userId: string;
   username: string;
 }
 

@@ -4,6 +4,7 @@ import cors from "cors";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
+import { connectDatabase } from "./database.js";
 import { seedDatabase } from "./seed.js";
 import authRoutes from "./routes/auth.js";
 import projectRoutes from "./routes/projects.js";
@@ -19,8 +20,6 @@ const isProd = process.env.NODE_ENV === "production";
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
-
-seedDatabase();
 
 const app = express();
 
@@ -38,7 +37,11 @@ app.use("/api/projects", projectRoutes);
 app.use("/api/upload", uploadRoutes);
 
 app.get("/api/health", (_req, res) => {
-  res.json({ status: "ok", mode: isProd ? "production" : "development" });
+  res.json({
+    status: "ok",
+    mode: isProd ? "production" : "development",
+    database: "mongodb",
+  });
 });
 
 if (isProd && fs.existsSync(distDir)) {
@@ -77,9 +80,21 @@ app.use(
   },
 );
 
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`VegaCore server running at http://localhost:${PORT}`);
-  if (!isProd) {
-    console.log("Dev tip: run npm run dev for hot-reload frontend on :5173");
+async function start() {
+  try {
+    await connectDatabase();
+    await seedDatabase();
+
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`VegaCore server running at http://localhost:${PORT}`);
+      if (!isProd) {
+        console.log("Dev tip: run npm run dev for hot-reload frontend on :5173");
+      }
+    });
+  } catch (err) {
+    console.error("Failed to start server:", err);
+    process.exit(1);
   }
-});
+}
+
+start();
